@@ -27,7 +27,7 @@ export default {
     props: {
         endDate: {
             type: String,
-            default: 'white',
+            default: '',
         }
     },
     methods: {
@@ -36,9 +36,8 @@ export default {
             const hoursHolder = document.querySelector('.js-hours');
             const minutesHolder = document.querySelector('.js-minutes');
             const secondsHolder = document.querySelector('.js-seconds');
-
-            endDate = new Date(endDate).getTime();
-            if (isNaN(endDate)) {
+            const endTime = new Date(endDate).getTime();
+            if (isNaN(endTime)) {
                 return;
             }
 
@@ -47,11 +46,9 @@ export default {
                 let hours;
                 let minutes;
                 let seconds;
+                const startTime = new Date().getTime();
 
-                let startDate = new Date();
-                startDate = startDate.getTime();
-
-                let timeRemaining = parseInt((endDate - startDate) / 1000);
+                let timeRemaining = parseInt((endTime - startTime) / 1000);
                 if (timeRemaining < 0) {
                     return;
                 }
@@ -77,7 +74,7 @@ export default {
         },
     },
     mounted() {
-        this.startCountDown('10/31/2019 00:00:00 PM');
+        this.startCountDown(this.endDate);
     },
 }
 </script>

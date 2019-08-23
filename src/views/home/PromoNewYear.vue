@@ -32,7 +32,9 @@
                                 </span>
                             </h1>
 
-                            <count-down-timer class="offer-timer" />
+                            <count-down-timer end-date="10/31/2019 00:00:00 PM"
+                                              class="offer-timer"
+                            />
 
                             <base-button tag="a"
                                          href="#"
