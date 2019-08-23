@@ -180,6 +180,8 @@ $mobile-nav-toggle-padding: 12px;
     }
 
     @include respond-to($media-mobile-nav - 1, max) {
+        @include transition("max-height, opacity", .3s, ease-in-out);
+
         position: absolute;
         top: 15px;
         right: 10px;
@@ -187,8 +189,6 @@ $mobile-nav-toggle-padding: 12px;
         max-height: 0;
         padding: 0 $mobile-nav-padding; // Vertical padding on parent has to be 0 for smooth transition
         overflow: hidden;
-        transition: max-height .3s ease-in-out;
-        transition-property: max-height, opacity;
         border-radius: 0 0 $mobile-nav-border-radius $mobile-nav-border-radius;
         opacity: 0;
         background: $mobile-nav-bg-color;

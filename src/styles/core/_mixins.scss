@@ -35,6 +35,12 @@
     border-#{$side}: $size-side solid $color;
 }
 
+@mixin transition($properties, $duration: .15s, $timing: ease-in) {
+    transition-property: $properties;
+    transition-duration: $duration;
+    transition-timing-function: $timing;
+}
+
 @mixin hover-decoration($height, $color) {
     position: relative;
 
@@ -60,10 +66,4 @@
             opacity: 1;
         }
     }
-}
-
-@mixin transition($properties, $duration: .15s, $timing: ease-in) {
-    transition-property: $properties;
-    transition-duration: $duration;
-    transition-timing-function: $timing;
 }

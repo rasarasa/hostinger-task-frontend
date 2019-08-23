@@ -20,13 +20,13 @@ export default {
 
 <style scoped lang="scss">
 .page-width {
+    @include transition("padding-left, padding-right", .1s, ease-in-out);
+
     max-width: $page-width-max;
     margin-right: auto;
     margin-left: auto;
     padding-right: $page-padding-sides-xl;
     padding-left: $page-padding-sides-xl;
-    transition: all .1s ease-in-out;
-    transition-property: padding-left, padding-right;
 
     @include respond-to($media-xl, max) {
         padding-right: $page-padding-sides-lg;

@@ -140,11 +140,12 @@ export default {
     $_tag-arrow-size: 15px;
     $_tag-arrow-size-sm: 10px;
 
+    @include transition(font-size, .1s, ease-in-out);
+
     display: flex;
     position: relative;
     justify-content: center;
     padding: 28px 6px 0;
-    transition: font-size .1s ease-in-out;
     font-size: 432px;
     font-weight: 700;
     line-height: 1;
