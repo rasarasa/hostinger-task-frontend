@@ -66,22 +66,11 @@ export default {
     }
 
     &--secondary {
+        @include hover-decoration(100%, $color-button-secondary-hover);
+
         border-color: $color-button-secondary;
         background: $color-button-secondary;
         color: #fff;
-
-        &:focus {
-            color: $color-button-secondary-hover;
-        }
-
-        &:hover {
-            border-color: $color-button-secondary-hover;
-            color: $color-button-secondary-hover;
-        }
-    }
-
-    &--md {
-        // TODO
     }
 
     &--lg {

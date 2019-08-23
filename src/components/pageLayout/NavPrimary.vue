@@ -14,11 +14,11 @@
         </button>
 
         <nav class="nav-primary">
-            <a class="nav-primary__item" href="#">Web Hosting</a>
-            <a class="nav-primary__item" href="#">Cloud Hosting <em class="nav-primary__item-tag">On sale</em></a>
-            <a class="nav-primary__item" href="#">VPS Hosting</a>
-            <a class="nav-primary__item" href="#">Domain Checker</a>
-            <a class="nav-primary__item" href="#">Website Builder</a>
+            <a class="nav-primary__item" href="#"><span>Web Hosting</span></a>
+            <a class="nav-primary__item" href="#"><span>Cloud Hosting <em class="nav-primary__item-tag">On sale</em></span></a>
+            <a class="nav-primary__item" href="#"><span>VPS Hosting</span></a>
+            <a class="nav-primary__item" href="#"><span>Domain Checker</span></a>
+            <a class="nav-primary__item" href="#"><span>Website Builder</span></a>
         </nav>
     </div>
 </template>
@@ -169,13 +169,13 @@ $mobile-nav-toggle-padding: 12px;
         }
 
         &__item {
+            @include hover-decoration(3px, #fff);
+
             display: inline-block;
             margin: 0 $_spacing;
             padding: 8px 0;
             font-weight: 600;
             text-transform: uppercase;
-
-            @include hover-decoration(3px, #fff);
         }
     }
 
@@ -194,16 +194,24 @@ $mobile-nav-toggle-padding: 12px;
         background: $mobile-nav-bg-color;
 
         &__item-tag {
-            top: 3px;
-            left: 20px;
+            bottom: 100%;
+            left: 0;
+            margin-bottom: -2px;
         }
 
         &__item {
+            @include hover-decoration(100%, $color-button-secondary-hover);
+
             display: block;
             margin: 0 0 1px;
             padding: 15px 20px;
             background-color: $color-button-secondary;
             font-weight: 600;
+
+            > span {
+                position: relative;
+                z-index: 1;
+            }
 
             &:first-child {
                 margin-top: $mobile-nav-toggle-height + $mobile-nav-toggle-padding * 2;
@@ -211,12 +219,6 @@ $mobile-nav-toggle-padding: 12px;
 
             &:last-child {
                 margin-bottom: $mobile-nav-padding;
-            }
-
-            &:hover,
-            &:focus {
-                outline: none;
-                background-color: $color-button-secondary-hover;
             }
         }
 
