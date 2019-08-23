@@ -1,7 +1,8 @@
 # Frontend Developer Task
 
-- Hosted DEMO: // TODO
+- hosted DEMO: // TODO
 
-- Done with Vue.js
-
-- To run locally, use `npm run serve`
+### To run project locally:
+- switch to node version noted in `.nvmrc`
+- run `npm i`
+- run `npm run serve`
