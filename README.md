@@ -1,8 +1,8 @@
 # Frontend Developer Task
 
-- hosted DEMO: // TODO
+- DEMO: https://rasarasa.github.io/hostinger-task-frontend/
 
 ### To run project locally:
-- switch to node version noted in `.nvmrc`
-- run `npm i`
-- run `npm run serve`
+- Switch to node version noted in `.nvmrc`
+- Run `npm i`
+- Run `npm run serve`
