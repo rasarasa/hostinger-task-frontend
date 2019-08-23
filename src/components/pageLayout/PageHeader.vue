@@ -4,7 +4,7 @@
     >
         <page-width>
             <div class="page-header__inner">
-                <a href="/" class="logo">
+                <a href="./" class="logo">
                     <svg>
                         <use xlink:href="#logo" />
                     </svg>
