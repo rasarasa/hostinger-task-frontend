@@ -1,0 +1,69 @@
+@mixin respond-to($size, $dir) {
+    // stylelint-disable media-feature-name-no-vendor-prefix
+    @if ($size == retina) {
+        @media only screen and (min-resolution: 2dppx), (-webkit-min-device-pixel-ratio: 2) {
+            @content;
+        }
+    }
+
+    @else if ($size and $dir) {
+        @media screen and (#{$dir}-width: $size) {
+            @content;
+        }
+    }
+    // stylelint-enable media-feature-name-no-vendor-prefix
+}
+
+// browser detection
+@mixin ie11 {
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        @content;
+    }
+}
+
+@mixin moz {
+    @-moz-document url-prefix() {
+        @content;
+    }
+}
+
+@mixin triangle($side, $size-all, $size-side, $color) {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: $size-all solid transparent;
+    border-#{$side}: $size-side solid $color;
+}
+
+@mixin hover-decoration($height, $color) {
+    position: relative;
+
+    &::after {
+        @include transition('opacity, left, right');
+
+        content: '';
+        position: absolute;
+        right: 50%;
+        bottom: 0;
+        left: 50%;
+        height: $height;
+        border-radius: inherit;
+        opacity: 0;
+        background-color: $color;
+    }
+
+    &:hover,
+    &:focus {
+        &::after {
+            right: 0;
+            left: 0;
+            opacity: 1;
+        }
+    }
+}
+
+@mixin transition($properties, $duration: .15s, $timing: ease-in) {
+    transition-property: $properties;
+    transition-duration: $duration;
+    transition-timing-function: $timing;
+}
