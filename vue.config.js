@@ -1,7 +1,7 @@
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 module.exports = {
-    publicPath: '././',
+    //publicPath: '././',
     configureWebpack: {
         devtool: 'source-map',
         plugins: [
