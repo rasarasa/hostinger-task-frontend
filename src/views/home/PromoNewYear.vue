@@ -84,7 +84,7 @@ import LandingPageSection from "@/components/LandingPageSection";
 import FlexColumns from "@/components/layout/FlexColumns";
 import FlexCol from "@/components/layout/FlexCol";
 import BaseButton from "@/components/base/BaseButton";
-import CountDownTimer from "../../components/CountDownTimer";
+import CountDownTimer from "@/components/CountDownTimer";
 
 export default {
     name: 'PromoNewYear',
@@ -231,7 +231,6 @@ export default {
     }
 
     @include respond-to($media-xs, max) {
-        margin: 30px 0 15px;
         font-size: 180px;
     }
 }

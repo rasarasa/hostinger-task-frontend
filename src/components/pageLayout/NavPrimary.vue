@@ -42,10 +42,6 @@ export default {
         },
         toggleMobileNavigation() {
             this.isOpen = !this.isOpen;
-
-            // setTimeout(() => {
-            //     body.classList.remove(overflowClass);
-            // }, 300);
         },
     },
 };
@@ -195,8 +191,6 @@ $mobile-nav-toggle-padding: 12px;
         transition-property: max-height, opacity;
         border-radius: 0 0 $mobile-nav-border-radius $mobile-nav-border-radius;
         opacity: 0;
-        background: $color-bg-dark;
-        background: linear-gradient(to top, $mobile-nav-bg-color, rgba(102, 71, 199, .5));
         background: $mobile-nav-bg-color;
 
         &__item-tag {

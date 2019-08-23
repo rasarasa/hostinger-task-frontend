@@ -10,17 +10,8 @@ $colors-raw: (
 );
 
 // stylelint-disable
-// retrieve color from $colors map ie. `color(base, primary)`
 @function color($color-name, $color-variant:null) {
-    // color variant is optional
-    @if ($color-variant != null) {
-        // map inception
-        @return map-get(map-get($colors-raw, $color-name), $color-variant);
-    }
-
-    @else {
-        @return map-get($colors-raw, $color-name);
-    }
+    @return map-get($colors-raw, $color-name);
 }
 // stylelint-enable
 
@@ -46,7 +37,7 @@ $color-text-body-on-bg:        #fff;
 // Link colors
 $color-link:                   color('red-500');
 
-// Buttons
+// Button colors
 $color-button-primary:         color('red-500');
 $color-button-primary-hover:   desaturate(darken($color-button-primary, 10%), 15%);
 $color-button-secondary:       $color-brand-primary;

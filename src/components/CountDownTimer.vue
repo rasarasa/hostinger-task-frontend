@@ -7,15 +7,15 @@
             <span class="timer__label">Days</span>
         </span>
         <span class="timer__item">
-            <span class="timer__value js-hours">16</span>
+            <span class="timer__value js-hours">00</span>
             <span class="timer__label">Hours</span>
         </span>
         <span class="timer__item">
-            <span class="timer__value js-minutes">18</span>
+            <span class="timer__value js-minutes">00</span>
             <span class="timer__label">Minutes</span>
         </span>
         <span class="timer__item">
-            <span class="timer__value js-seconds">29</span>
+            <span class="timer__value js-seconds">00</span>
             <span class="timer__label">Seconds</span>
         </span>
     </time>
