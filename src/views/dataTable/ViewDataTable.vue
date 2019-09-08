@@ -2,8 +2,20 @@
     <layout-primary>
         <page-width>
 
+            <transition name="fade">
+                <div v-if="clickedCellData !== ''"
+                     class="sticky-box"
+                     :class="{ 'is-visible' : clickedCellData !== '' }"
+                >
+                    {{ clickedCellData }}
+                </div>
+            </transition>
+
             <div class="table-wrapper">
-                <table class="table">
+                <table class="table"
+                       @click="(e) => { tableClickHandler(e); }"
+                       @keyup.enter="(e) => { tableClickHandler(e); }"
+                >
                     <thead>
                         <tr>
                             <th v-for="(heading, headingIndex) in headings"
@@ -31,12 +43,18 @@
                     <tbody>
                         <tr v-for="(row, rowIndex) in itemsSorted"
                             :key="rowIndex"
+                            class="table__body-row"
+                            :class="{ 'is-active' : (rowIndex === activeRow) }"
+                            tabindex="0"
                         >
-                            <td v-for="(col, colIndex) in row"
-                                :key="colIndex"
-                                v-if="!colIndex.startsWith('_')"
+                            <td v-for="(col, colKey) in row"
+                                :key="colKey"
+                                :data-colkey="colKey"
+                                :data-rowid="rowIndex"
+                                v-if="!colKey.startsWith('_')"
                                 class="table__body-cell"
-\                            >
+                                tabindex="0"
+                            >
                                 {{ col }}
                             </td>
                         </tr>
@@ -66,6 +84,8 @@ export default {
             itemsRaw: data.data,
             sortBy: 'age',
             sortOrderDesc: false,
+            activeRow: null,
+            clickedCellData: '',
         }
     },
     computed: {
@@ -87,9 +107,12 @@ export default {
             }
 
             return items;
-        }
+        },
     },
     methods: {
+        getItemValue(rowId, colKey) {
+            return this.itemsSorted[rowId][colKey];
+        },
         setSort(key) {
             if ( this.sortBy !== key ) {
                 this.sortBy = key;
@@ -97,23 +120,68 @@ export default {
                 this.sortOrderDesc = !this.sortOrderDesc;
             }
         },
+        tableClickHandler(e) {
+            const col = e.target;
+            const colKey = col.dataset.colkey;
+            const rowId = +col.dataset.rowid; // "+" converts to number
+
+            if (col.nodeName === "TD") { // check if not keypress on a row
+                this.clickedCellData = this.getItemValue(rowId, colKey);
+            }
+
+            this.activeRow = rowId;
+        }
     }
 }
 </script>
 
 <style scoped lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+    @include transition(opacity);
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.sticky-box {
+    $_width: 250px;
+
+    position: fixed;
+    z-index: z-index('page-header');
+    top: $page-header-height;
+    left: 50%;
+    width: $_width;
+    margin-left: -$_width/2;
+    padding: .5em 1em;
+    background-color: $color-highlight-red;
+    color: #fff;
+    text-align: center;
+}
+
 .table {
     $_this: &;
     $_spacing: 1em;
 
     width: 100%;
+    margin: 42px 0 0;
 
     &-wrapper {
-        margin: $_spacing (-$_spacing);
+        margin: $_spacing (-$_spacing/2);
     }
 
     &__body-cell {
         padding: $_spacing/2 $_spacing;
+
+        &:first-child {
+            padding-left: $_spacing/2;
+        }
+
+        &:last-child {
+            padding-right: $_spacing/2;
+        }
     }
 
     &__header-cell {
@@ -130,12 +198,29 @@ export default {
             height: 2px;
             background-color: $color-bg-dark;
         }
+
+        &:first-child {
+            padding-left: 0;
+
+            &::after {
+                left: 0;
+            }
+        }
+
+        &:last-child {
+            padding-right: 0;
+
+            &::after {
+                right: 0;
+            }
+        }
     }
 
     &__sort-button {
         display: flex;
         z-index: 1;
         align-items: center;
+        width: 100%;
         padding: $_spacing/2;
         border: 0;
         background-color: transparent;
@@ -174,6 +259,12 @@ export default {
 
         &.is-desc {
             fill: $color-link;
+        }
+    }
+
+    &__body-row {
+        &.is-active {
+            background-color: $color-bg-light;
         }
     }
 }
