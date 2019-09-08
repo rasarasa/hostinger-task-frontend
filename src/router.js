@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import ViewHome from '@/views/home/ViewHome.vue';
-import ViewDataTable from '@/views/ViewDataTable.vue';
+import ViewDataTable from '@/views/dataTable/ViewDataTable.vue';
 
 Vue.use(Router);
 const router = new Router({

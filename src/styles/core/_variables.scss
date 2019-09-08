@@ -36,6 +36,7 @@ $color-text-body-on-bg:        #fff;
 
 // Link colors
 $color-link:                   color('red-500');
+$color-link-hover:             darken($color-link, 10%);
 
 // Button colors
 $color-button-primary:         color('red-500');
