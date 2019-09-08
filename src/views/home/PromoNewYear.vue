@@ -36,12 +36,12 @@
                                               class="offer-timer"
                             />
 
-                            <base-button tag="a"
-                                         href="#"
+                            <base-button tag="router-link"
+                                         to="/data-table"
                                          theme="primary"
                                          size="lg"
                             >
-                                Get Started Now
+                                View Data Table Task
                             </base-button>
                         </div>
 

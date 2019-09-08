@@ -4,11 +4,12 @@
     >
         <page-width>
             <div class="page-header__inner">
-                <a href="./" class="logo">
+                <router-link to="/"
+                             class="logo">
                     <svg>
                         <use xlink:href="#logo" />
                     </svg>
-                </a>
+                </router-link>
 
                 <nav-primary />
             </div>
@@ -31,7 +32,7 @@ export default {
         theme: {
             type: String,
             default: '',
-            validator: value => ['transparent'].includes(value),
+            validator: value => ['', 'transparent'].includes(value),
         },
     },
 }

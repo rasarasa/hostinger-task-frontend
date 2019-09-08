@@ -21,7 +21,7 @@ export default {
         tag: {
             type: String,
             default: 'button',
-            validator: value => ['button', 'a'].includes(value),
+            validator: value => ['button', 'a', 'router-link'].includes(value),
         },
         theme: {
             type: String,

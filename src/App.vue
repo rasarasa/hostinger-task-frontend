@@ -1,18 +1,14 @@
 <template>
     <div id="app">
 
-        <view-home />
+        <router-view />
 
     </div>
 </template>
 
 <script>
-import ViewHome from "@/views/home/ViewHome";
 export default {
     name: 'app',
-    components: {
-        ViewHome,
-    },
 }
 </script>
 

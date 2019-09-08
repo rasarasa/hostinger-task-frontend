@@ -1,7 +1,7 @@
 <template>
     <div class="layout">
 
-        <page-header theme="transparent" />
+        <page-header :theme="pageHeaderTheme" />
 
         <slot />
 
@@ -16,5 +16,11 @@ export default {
     components: {
         PageHeader,
     },
+    props: {
+        pageHeaderTheme: {
+            type: String,
+            default: '',
+        },
+    }
 }
 </script>

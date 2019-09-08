@@ -1,5 +1,5 @@
 <template>
-    <layout-primary>
+    <layout-primary page-header-theme="transparent">
 
         <promo-new-year />
 
