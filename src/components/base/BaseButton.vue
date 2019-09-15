@@ -7,6 +7,7 @@
                    [`button--${theme}`] : theme !== '',
                    [`button--${size}`] : size !== '',
                }"
+               v-on="$listeners"
     >
         <span class="button__inner">
             <slot />
@@ -31,7 +32,7 @@ export default {
         size: {
             type: String,
             default: 'md',
-            validator: value => ['', 'md', 'lg'].includes(value),
+            validator: value => ['', 'sm', 'md', 'lg'].includes(value),
         },
     },
 };
@@ -47,7 +48,7 @@ export default {
     padding: 0;
     border: 0;
     border-radius: 5px;
-    background: transparent;
+    background-color: transparent;
     font-family: $font-family-base;
     text-decoration: none;
     text-transform: uppercase;
@@ -58,19 +59,57 @@ export default {
     }
 
     &--primary {
-        @include hover-decoration(100%, $color-button-primary-hover);
+        $_color: $color-button-primary;
 
-        border-color: $color-button-primary;
-        background: $color-button-primary;
+        border-color: $_color;
+        background-color: $_color;
         color: #fff;
+
+        &:disabled {
+            @include disabled-decoration($_color);
+        }
+
+        &:not(:disabled) {
+            @include hover-decoration(100%, $color-button-primary-hover);
+
+            &:focus {
+                @include focus-decoration($color-button-primary-hover);
+            }
+        }
     }
 
     &--secondary {
-        @include hover-decoration(100%, $color-button-secondary-hover);
+        $_color: $color-button-secondary;
 
-        border-color: $color-button-secondary;
-        background: $color-button-secondary;
+        border-color: $_color;
+        background-color: $_color;
         color: #fff;
+
+        &:disabled {
+            @include disabled-decoration($_color);
+        }
+
+        &:not(:disabled) {
+            @include hover-decoration(100%, $color-button-secondary-hover);
+
+            &:focus {
+                @include focus-decoration($color-button-secondary-hover);
+            }
+        }
+    }
+
+    &--sm {
+        padding: .5em 1em;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.4em;
+    }
+
+    &--md {
+        padding: .5em 1.5em;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.4em;
     }
 
     &--lg {

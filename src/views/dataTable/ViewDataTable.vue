@@ -41,7 +41,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(row, rowIndex) in itemsSorted"
+                        <tr v-for="(row, rowIndex) in itemsToDisplay"
                             :key="rowIndex"
                             class="table__body-row"
                             :class="{ 'is-active' : (rowIndex === activeRow) }"
@@ -62,33 +62,94 @@
                 </table>
             </div>
 
+            <div class="pagination">
+                <div class="pagination__content-primary">
+                    <base-button size="sm"
+                                 :disabled="!showPrevButton"
+                                 @click="setCurrentPage(currentPage - 1)"
+                    >
+                        Prev
+                    </base-button>
+
+                    <base-input id="currentPage"
+                                type="number"
+                                class="pagination__current"
+                                :value="currentPage"
+                                @input="setCurrentPage($event.target.value)"
+                    >
+                        <template slot="before">page</template>
+                        <template slot="after">of
+                            <span class="pagination__total">{{ totalPages }}</span>
+                        </template>
+                    </base-input>
+
+                    <base-button size="sm"
+                                 :disabled="!showNextButton"
+                                 @click="setCurrentPage(currentPage + 1)"
+                    >
+                        Next
+                    </base-button>
+                </div>
+
+                <div class="pagination__content-secondary">
+                    <base-input id="pageSize"
+                                type="number"
+                                :value="pageSize"
+                                @input="setPageSize($event.target.value)"
+                    >
+                        <template slot="after">Items per page</template>
+                    </base-input>
+                </div>
+
+                <div class="pagination__content-tertiary">
+                    <base-button size="sm"
+                                 theme="secondary"
+                                 @click="setPageSize(totalItems)"
+                    >
+                        View All
+                    </base-button>
+                </div>
+            </div>
+
         </page-width>
     </layout-primary>
 </template>
 
 <script>
 import '@/assets/icons/sort.svg';
-import axios from 'axios/index';
 import data from "@/views/dataTable/data.json";
 import LayoutPrimary from "@/components/pageLayout/LayoutPrimary";
 import PageWidth from "@/components/pageLayout/PageWidth";
+import BaseButton from "@/components/base/BaseButton";
+import BaseInput from "@/components/base/BaseInput";
 
 export default {
     name: 'ViewDataTable',
     components: {
+        BaseInput,
+        BaseButton,
         PageWidth,
         LayoutPrimary,
     },
     data() {
         return {
             itemsRaw: data.data,
-            sortBy: 'age',
+
+            sortBy: 'name',
             sortOrderDesc: false,
+
+            pageSize: 17,
+            currentPage: 1,
+            pageToOpen: 1,
+
             activeRow: null,
             clickedCellData: '',
         }
     },
     computed: {
+        totalItems() {
+            return this.itemsRaw.length;
+        },
         headings() {
             return Object.keys(this.itemsRaw[0]).filter(function(key) {
                 return !key.startsWith('_');
@@ -108,11 +169,26 @@ export default {
 
             return items;
         },
+        totalPages() {
+            return Math.ceil(this.itemsSorted.length / this.pageSize);
+        },
+        showPrevButton() {
+            return this.currentPage > 1;
+        },
+        showNextButton() {
+            return this.currentPage < this.totalPages;
+        },
+        itemFirstInPage() {
+            return (this.currentPage - 1) * this.pageSize;
+        },
+        itemLastInPage() {
+            return this.itemFirstInPage + this.pageSize;
+        },
+        itemsToDisplay() {
+            return this.itemsSorted.slice(this.itemFirstInPage, this.itemLastInPage);
+        },
     },
     methods: {
-        getItemValue(rowId, colKey) {
-            return this.itemsSorted[rowId][colKey];
-        },
         setSort(key) {
             if ( this.sortBy !== key ) {
                 this.sortBy = key;
@@ -120,18 +196,45 @@ export default {
                 this.sortOrderDesc = !this.sortOrderDesc;
             }
         },
+        setCurrentPage(pageNumber) {
+            pageNumber = +pageNumber; // converts to number
+
+            if ( pageNumber < 1 ) {
+                pageNumber = 1;
+            }
+            else if ( pageNumber > this.totalPages ) {
+                pageNumber = this.totalPages;
+            }
+
+            this.currentPage = pageNumber;
+        },
+        setPageSize(size) {
+            this.pageSize = +size; // converts to number
+
+            if ( size < 5 ) {
+                size = 5;
+            }
+            else if ( size > this.totalItems ) {
+                size = this.totalItems;
+            }
+
+            this.setCurrentPage(this.currentPage); // revalidates currentPage
+        },
+        getCellContent(rowId, colKey) {
+            return this.itemsSorted[rowId][colKey];
+        },
         tableClickHandler(e) {
             const col = e.target;
             const colKey = col.dataset.colkey;
             const rowId = +col.dataset.rowid; // "+" converts to number
 
             if (col.nodeName === "TD") { // check if not keypress on a row
-                this.clickedCellData = this.getItemValue(rowId, colKey);
+                this.clickedCellData = this.getCellContent(rowId, colKey);
             }
 
             this.activeRow = rowId;
-        }
-    }
+        },
+    },
 }
 </script>
 
@@ -166,7 +269,7 @@ export default {
     $_spacing: 1em;
 
     width: 100%;
-    margin: 42px 0 0;
+    margin: 42px 0 100px;
 
     &-wrapper {
         margin: $_spacing (-$_spacing/2);
@@ -266,6 +369,51 @@ export default {
         &.is-active {
             background-color: $color-bg-light;
         }
+    }
+}
+
+.pagination {
+    display: flex;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em;
+    background-color: $color-bg-light;
+    box-shadow: 0 0 4px rgba(0, 0, 0, .3);
+
+    &__label {
+        padding: .15em .5em;
+        font-size: 12px;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    &__total {
+        padding-left: .1em;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    &__current {
+        margin: 0 .5em;
+    }
+
+    &__content-primary {
+        display: flex;
+        align-items: inherit;
+        order: 2;
+        padding: 0 1em;
+    }
+
+    &__content-secondary {
+        order: 1;
+    }
+
+    &__content-tertiary {
+        order: 3;
     }
 }
 </style>

@@ -53,17 +53,33 @@
         bottom: 0;
         left: 50%;
         height: $height;
+        border: 2px solid $color;
         border-radius: inherit;
         opacity: 0;
         background-color: $color;
     }
 
-    &:hover,
-    &:focus {
+    &:hover {
         &::after {
             right: 0;
             left: 0;
             opacity: 1;
         }
+    }
+}
+
+@mixin disabled-decoration($color) {
+    border-color: desaturate($color, 80%);
+    background-color: desaturate($color, 80%);
+}
+
+@mixin focus-decoration($color) {
+    outline: none;
+
+    &::after {
+        right: 0;
+        left: 0;
+        border-color: darken($color, 18%);
+        opacity: 1;
     }
 }
